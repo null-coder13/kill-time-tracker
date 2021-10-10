@@ -43,7 +43,7 @@ public class KillTimeTrackerPlugin extends Plugin
 		panel = new KillTimeTrackerPanel(this);
 
 		//Cannot load this image in this is looking for the file in com.killtracker when it should be looking in resources
-		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "panel-icon.png");
+		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "boss-icon.png");
 
 		navButton = NavigationButton.builder()
 				.tooltip("Kill Time Tracker")
