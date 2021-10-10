@@ -11,10 +11,17 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.ClientToolbar;
+import net.runelite.client.ui.NavigationButton;
+import net.runelite.client.util.ImageUtil;
+
+import java.awt.image.BufferedImage;
 
 @Slf4j
 @PluginDescriptor(
-	name = "Kill Time Tracker"
+	name = "Kill Time Tracker",
+	description = "Tracks kill times for various bosses",
+    enabledByDefault = true
 )
 public class KillTimeTrackerPlugin extends Plugin
 {
@@ -22,12 +29,30 @@ public class KillTimeTrackerPlugin extends Plugin
 	private Client client;
 
 	@Inject
+	private ClientToolbar clientToolbar;
+
+	@Inject
 	private KillTimeTrackerConfig config;
+
+	private NavigationButton navButton;
+	private KillTimeTrackerPanel panel;
 
 	@Override
 	protected void startUp() throws Exception
 	{
-		log.info("Example started!");
+		panel = new KillTimeTrackerPanel(this);
+
+		//Cannot load this image in this is looking for the file in com.killtracker when it should be looking in resources
+		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "panel-icon.png");
+
+		navButton = NavigationButton.builder()
+				.tooltip("Kill Time Tracker")
+				.icon(icon)
+				.priority(6)
+				.panel(panel)
+				.build();
+
+		clientToolbar.addNavigation(navButton);
 	}
 
 	@Override
