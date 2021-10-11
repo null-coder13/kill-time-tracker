@@ -1,5 +1,6 @@
-package com.killtimetracker;
+package com.killtimetracker.ui;
 
+import com.killtimetracker.KillTimeTrackerPlugin;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.client.ui.ColorScheme;
@@ -18,6 +19,7 @@ public class KillTimeTrackerPanel extends PluginPanel
 
     public KillTimeTrackerPanel(KillTimeTrackerPlugin plugin)
     {
+        //TODO: Refresh on JPanels and creating buttons
         super();
         this.plugin = plugin;
         panel.setBackground(ColorScheme.DARK_GRAY_COLOR);
