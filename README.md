@@ -12,10 +12,10 @@ The plugin tracks the kill time after a boss is defeated and stores it in a JSON
 The plugin has the abillity to reset either the slowest, fastest, or all times.
 
 ## Design Mockup
-![boss selection](src/main/resources/boss-selection.png)  
+![boss selection](src/main/resources/com.killtimetracker/boss-selection.png)  
 Here the user can select a boss they want to see statistics on. Once they select the boss it will bring them to the next screen.
 
-![statistics](src/main/resources/boss-stats.png)  
+![statistics](src/main/resources/com.killtimetracker/boss-stats.png)  
 This is an example for the data that will be displayed after selecting a boss. The reset button allows the user to reset all of the boss times for selected boss. 
 
 ## Installation
