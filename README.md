@@ -1,7 +1,7 @@
 ## Introduction
 Currently, there is no plugin that maintains a record of all the kill times for a given boss. The goal of this plugin is to track all boss times for a given boss and provide the player with statistics.
 
-##Features
+## Features
 ### View a List of Time Trackable Bosses
 The plugins displays a list of time trackable bosses. There should be an image of the boss and the bosses name in the panel. 
 ### View Boss Stats
