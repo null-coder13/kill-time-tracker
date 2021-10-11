@@ -16,6 +16,7 @@ public class KillTimeTrackerPanel extends PluginPanel
     private final KillTimeTrackerPlugin plugin;
     private final JPanel panel = new JPanel();
     private final PluginErrorPanel errorPanel = new PluginErrorPanel();
+    private final BossPanel bossPanel = new BossPanel();
 
     public KillTimeTrackerPanel(KillTimeTrackerPlugin plugin)
     {
@@ -27,7 +28,7 @@ public class KillTimeTrackerPanel extends PluginPanel
         errorPanel.setContent("Kill Timers", "Could not load kill times");
         panel.add(errorPanel);
         add(panel, BorderLayout.NORTH);
+        add(bossPanel, BorderLayout.NORTH);
         panel.repaint();
-        System.out.println("Is this working?");
     }
 }
