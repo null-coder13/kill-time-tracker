@@ -11,7 +11,6 @@ public class KillTimeEntry
 {
     public final String name;
     public final int killCount;
-    //TODO: need methods to convert times for calcutations
     public final int hour;
     public final int minute;
     public final int second;
