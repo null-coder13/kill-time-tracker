@@ -73,6 +73,16 @@ public class KillTimeWriterTest
         String boss = "test-boss";
         Collection<KillTimeEntry> data = writer.loadKillTimeTrackerEntries(boss);
         //This increments everytime its run need to change the value until implementing clear data
-        Assert.assertEquals(data.size(), 3);
+        Assert.assertEquals(data.size(), 1);
+    }
+
+    @Test
+    public void deleteKillTimeRecord()
+    {
+        KillTimeWriter writer = new KillTimeWriter();
+        writer.setPlayerUsername("test-user");
+        KillTimeEntry entry = new KillTimeEntry("test-boss", 1, 0, 1, 13, new Date());
+        boolean isDeleted = writer.deleteKillTimeRecord("test-boss");
+        Assert.assertTrue(isDeleted);
     }
 }

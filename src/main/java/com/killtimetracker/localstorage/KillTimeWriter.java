@@ -110,5 +110,21 @@ public class KillTimeWriter
 		return data;
 	}
 
+    public synchronized boolean deleteKillTimeRecord(String bossName)
+	{
+		final String fileName = bossNameToFileName(bossName);
+        final File file = new File(playerDirectory, fileName);
+
+		if (file.delete())
+		{
+			log.debug("Deleted boss file: {}", fileName);
+			return true;
+		}
+		else
+		{
+			log.debug("Couldn't delete boss file: {}", fileName);
+			return false;
+		}
+	}
 
 }
