@@ -6,10 +6,9 @@ import net.runelite.http.api.RuneLiteAPI;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Locale;
 
 import static net.runelite.client.RuneLite.RUNELITE_DIR;
@@ -80,5 +79,36 @@ public class KillTimeWriter
 			return false;
 		}
 	}
+
+    public synchronized Collection<KillTimeEntry> loadKillTimeTrackerEntries(String bossName)
+	{
+		final String fileName = bossNameToFileName(bossName);
+        final File file = new File(playerDirectory, fileName);
+		final Collection<KillTimeEntry> data = new ArrayList<>();
+
+		try (final BufferedReader br = new BufferedReader(new FileReader(file)))
+		{
+			String line;
+			while ((line = br.readLine()) != null)
+			{
+				// Skips the empty line at end of file
+				if (line.length() > 0)
+				{
+					final KillTimeEntry entry = RuneLiteAPI.GSON.fromJson(line, KillTimeEntry.class);
+					data.add(entry);
+				}
+			}
+		}
+		catch (FileNotFoundException e)
+		{
+			log.debug("File not found: {}", fileName);
+		}
+		catch (IOException e)
+		{
+			log.warn("IOException for file {}: {}", fileName, e.getMessage());
+		}
+		return data;
+	}
+
 
 }

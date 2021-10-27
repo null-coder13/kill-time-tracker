@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.Date;
 
 import static net.runelite.client.RuneLite.RUNELITE_DIR;
@@ -55,6 +56,23 @@ public class KillTimeWriterTest
        writer.setPlayerUsername("test-user");
        KillTimeEntry entry = new KillTimeEntry("test-boss", 1, 0, 1, 13, new Date());
        writer.addKillTimeEntry(entry);
+       KillTimeEntry entry2 = new KillTimeEntry("test-boss2", 2, 0, 1, 10, new Date());
+       writer.addKillTimeEntry(entry2);
        //checked it manually in .runelite path
+    }
+
+    @Test
+    public void loadKillTimeTrackerEntries()
+    {
+        KillTimeWriter writer = new KillTimeWriter();
+        writer.setPlayerUsername("test-user");
+        KillTimeEntry entry = new KillTimeEntry("test-boss", 1, 0, 1, 13, new Date());
+        writer.addKillTimeEntry(entry);
+        KillTimeEntry entry2 = new KillTimeEntry("test-boss2", 2, 0, 1, 10, new Date());
+        writer.addKillTimeEntry(entry2);
+        String boss = "test-boss";
+        Collection<KillTimeEntry> data = writer.loadKillTimeTrackerEntries(boss);
+        //This increments everytime its run need to change the value until implementing clear data
+        Assert.assertEquals(data.size(), 3);
     }
 }
