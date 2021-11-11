@@ -61,6 +61,7 @@ public class KillTimeWriter
 		final String fileName = bossNameToFileName(entry.getName());
 		final File timeFile = new File(playerDirectory, fileName);
 
+		
 		// Convert entry to JSON
 		final String dataAsString = RuneLiteAPI.GSON.toJson(entry);
 
