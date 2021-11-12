@@ -54,42 +54,38 @@ public class KillTimeTrackerPluginTestMethods
                 String boss = gauntletKCMatcher.group(1);
                 int kc = Integer.parseInt(gauntletKCMatcher.group(3));
 
-                int[] times = parseTime(messageStack.pop());
+//                int[] times = parseTime(messageStack.pop());
 
                 System.out.println("Writing to file");
-                KillTimeEntry entry = new KillTimeEntry(boss, kc, 0, times[0], times[1], new Date());
-                writer.addKillTimeEntry(entry);
+//                KillTimeEntry entry = new KillTimeEntry(boss, kc, 0, times[0], times[1], new Date());
+//                writer.addKillTimeEntry(entry);
             }
         }
 
 //        Assert.assertTrue(isCorrect);
     }
 
-//    @Test
-//    public void parseTime()
-//    {
-//        String time1 = "08:21";
-//        String time = "00:" + time1;
-//
+    @Test
+    public void parseTime()
+    {
+        String time1 = "08:21";
+        String[] splitTime = time1.split(":", 2);
+        int minute = Integer.parseInt(splitTime[0]);
+        System.out.println(minute);
+        int second = Integer.parseInt(splitTime[1]);
+        System.out.println(second);
+
+//        Assert.assertEquals(8, minute);
+    }
+
+//    public int[] parseTime(String data) {
+//        String time = "00:" + data;
 //        LocalTime localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss"));
 //        int minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
-//        System.out.println(minute);
 //        int second = localTime.get(ChronoField.SECOND_OF_MINUTE);
-//        System.out.println(second);
 //        int[] parsedTimes = new int[2];
 //        parsedTimes[0] = minute;
 //        parsedTimes[1] = second;
-//        Assert.assertEquals(8, minute);
+//        return parsedTimes;
 //    }
-
-    public int[] parseTime(String data) {
-        String time = "00:" + data;
-        LocalTime localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss"));
-        int minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
-        int second = localTime.get(ChronoField.SECOND_OF_MINUTE);
-        int[] parsedTimes = new int[2];
-        parsedTimes[0] = minute;
-        parsedTimes[1] = second;
-        return parsedTimes;
-    }
 }

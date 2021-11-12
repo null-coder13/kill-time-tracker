@@ -114,7 +114,6 @@ public class KillTimeTrackerPlugin extends Plugin
         if (matcher.matches())
         {
             //get the time from the message
-
         }
 
         final Matcher bossMatcher = BOSS_NAME.matcher(chatMessage);
@@ -126,9 +125,6 @@ public class KillTimeTrackerPlugin extends Plugin
         final Matcher gauntletMatcher = GAUNTLET.matcher(chatMessage);
         if (gauntletMatcher.matches())
         {
-            // TODO: figure out why its not adding to this.
-            System.out.println("Matched regular");
-            System.out.println("Adding: " + gauntletMatcher.group(2) + " to stack");
             messageStack.push(gauntletMatcher.group(2));
         }
 
@@ -155,13 +151,10 @@ public class KillTimeTrackerPlugin extends Plugin
     }
 
     public int[] parseTime(String data) {
-        String time = "00:" + data;
-        LocalTime localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss"));
-        int minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
-        int second = localTime.get(ChronoField.SECOND_OF_MINUTE);
+        String[] splitTime = data.split(":", 2);
         int[] parsedTimes = new int[2];
-        parsedTimes[0] = minute;
-        parsedTimes[1] = second;
+        parsedTimes[0] = Integer.parseInt(splitTime[0]);
+        parsedTimes[1] = Integer.parseInt(splitTime[1]);
         return parsedTimes;
     }
 }
