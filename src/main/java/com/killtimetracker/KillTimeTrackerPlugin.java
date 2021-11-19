@@ -1,5 +1,6 @@
 package com.killtimetracker;
 
+import com.google.common.collect.Iterables;
 import com.google.inject.Provides;
 
 import javax.inject.Inject;
@@ -26,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Stack;
 import java.util.regex.Matcher;
@@ -92,7 +94,6 @@ public class KillTimeTrackerPlugin extends Plugin
     {
         if (gameStateChanged.getGameState() == GameState.LOGGED_IN)
         {
-            System.out.println("Player name set.");
             writer.setPlayerUsername(client.getUsername());
         }
     }
@@ -106,9 +107,6 @@ public class KillTimeTrackerPlugin extends Plugin
         }
 
         final String chatMessage = Text.removeTags(event.getMessage());
-        System.out.println(chatMessage);
-        System.out.println("----");
-
 
         final Matcher matcher = KILL_MESSAGE.matcher(chatMessage);
         if (matcher.matches())
@@ -140,8 +138,15 @@ public class KillTimeTrackerPlugin extends Plugin
 
                 KillTimeEntry entry = new KillTimeEntry(boss, kc, 0, times[0], times[1], new Date());
                 writer.addKillTimeEntry(entry);
+                //TODO: Recalculate times
+                //TODO:
             }
+            Collection<KillTimeEntry> entries = writer.loadKillTimeTrackerEntries("corrupted gauntlet");
+            System.out.println("Your average time is: " + calcAverageTime(entries));
+            System.out.println("Your slowest time is: " + getSlowestTime(entries));
+            System.out.println("Your fastest time is: " + getFastestTime(entries));
         }
+        // get the file and print out its contents
     }
 
     @Provides
@@ -157,4 +162,52 @@ public class KillTimeTrackerPlugin extends Plugin
         parsedTimes[1] = Integer.parseInt(splitTime[1]);
         return parsedTimes;
     }
+
+    public String calcAverageTime(Collection<KillTimeEntry> entries)
+    {
+        int secondTotal = 0;
+        for (KillTimeEntry entry : entries)
+        {
+            secondTotal += entry.convertToSeconds();
+        }
+        int averageSecond = secondTotal / entries.size();
+        return convertToTime(averageSecond);
+    }
+
+    public String getSlowestTime(Collection<KillTimeEntry> entries)
+    {
+        int currentSlowest = 0;
+        for (KillTimeEntry entry : entries)
+        {
+            if (currentSlowest < entry.convertToSeconds())
+            {
+                currentSlowest = entry.convertToSeconds();
+            }
+        }
+       return convertToTime(currentSlowest);
+    }
+
+    // Might make a class that just keeps track of times
+    public String getFastestTime(Collection<KillTimeEntry> entries)
+    {
+        KillTimeEntry firstEntry = (KillTimeEntry) Iterables.getFirst(entries, 0);
+        int currentFastest = firstEntry.convertToSeconds();
+        for (KillTimeEntry entry : entries)
+        {
+            if (currentFastest > entry.convertToSeconds())
+            {
+                currentFastest = entry.convertToSeconds();
+            }
+        }
+        return convertToTime(currentFastest);
+    }
+
+    public String convertToTime(int second)
+    {
+        int minutes = second / 60;
+        int seconds = second % 60;
+        return minutes + ":" + seconds;
+    }
+
+
 }

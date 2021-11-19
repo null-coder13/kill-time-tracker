@@ -72,6 +72,7 @@ public class KillTimeWriterTest
         writer.addKillTimeEntry(entry2);
         String boss = "test-boss";
         Collection<KillTimeEntry> data = writer.loadKillTimeTrackerEntries(boss);
+        System.out.println(data);
         //This increments everytime its run need to change the value until implementing clear data
         Assert.assertEquals(data.size(), 1);
     }

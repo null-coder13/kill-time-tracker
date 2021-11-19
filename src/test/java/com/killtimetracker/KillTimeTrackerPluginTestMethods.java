@@ -78,14 +78,4 @@ public class KillTimeTrackerPluginTestMethods
 //        Assert.assertEquals(8, minute);
     }
 
-//    public int[] parseTime(String data) {
-//        String time = "00:" + data;
-//        LocalTime localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss"));
-//        int minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
-//        int second = localTime.get(ChronoField.SECOND_OF_MINUTE);
-//        int[] parsedTimes = new int[2];
-//        parsedTimes[0] = minute;
-//        parsedTimes[1] = second;
-//        return parsedTimes;
-//    }
 }
