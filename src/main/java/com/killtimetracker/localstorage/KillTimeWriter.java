@@ -9,7 +9,6 @@ import javax.inject.Singleton;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Locale;
 
 import static net.runelite.client.RuneLite.RUNELITE_DIR;
 
@@ -61,7 +60,6 @@ public class KillTimeWriter
 		final String fileName = bossNameToFileName(entry.getName());
 		final File timeFile = new File(playerDirectory, fileName);
 
-		
 		// Convert entry to JSON
 		final String dataAsString = RuneLiteAPI.GSON.toJson(entry);
 
@@ -92,7 +90,6 @@ public class KillTimeWriter
 			String line;
 			while ((line = br.readLine()) != null)
 			{
-				// Skips the empty line at end of file
 				if (line.length() > 0)
 				{
 					final KillTimeEntry entry = RuneLiteAPI.GSON.fromJson(line, KillTimeEntry.class);

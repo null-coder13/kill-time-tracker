@@ -1,5 +1,6 @@
 package com.killtimetracker.ui;
 
+import com.killtimetracker.KillTimeTrackerPlugin;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.components.materialtabs.MaterialTab;
@@ -11,19 +12,18 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collection;
 
 public class BossSelectionPanel extends JPanel
 {
     private ItemManager itemManager;
+    private final KillTimeTrackerPlugin plugin;
 
-    public BossSelectionPanel(ItemManager itemManager)
+    public BossSelectionPanel(ItemManager itemManager, KillTimeTrackerPlugin plugin)
     {
         this.setLayout(new GridLayout(4, 3, 10, 10));
         this.itemManager = itemManager;
-        //add icons to layout
+        this.plugin = plugin;
         this.add(createPanel());
-
     }
 
     public JPanel createPanel()
@@ -42,7 +42,6 @@ public class BossSelectionPanel extends JPanel
         tabGroup.setLayout(new GridLayout(4,3, 5, 5));
         tabGroup.setBorder(new EmptyBorder(0,0,4,0));
 
-        //loop through KTTBossInfo
         for (KTTBossInfo boss : KTTBossInfo.values())
         {
             final MaterialTab materialTab = new MaterialTab("", tabGroup, null);
@@ -65,8 +64,7 @@ public class BossSelectionPanel extends JPanel
 
             materialTab.setOnSelectEvent(() ->
             {
-                //TODO: Get the info for the boss
-                System.out.println("Clicked on " + materialTab.getName());
+                plugin.displayDetails(boss.getBossName(), boss.getIcon());
                 return true;
             });
 

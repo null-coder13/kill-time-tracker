@@ -25,9 +25,7 @@ import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.Text;
 
 import java.awt.image.BufferedImage;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Stack;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,13 +62,13 @@ public class KillTimeTrackerPlugin extends Plugin
     private static final Pattern GAUNTLET = Pattern.compile("(Corrupted )*[cC]hallenge duration: (\\d+:\\d+).+");
     private static final Pattern GAUNTLET_TIME = Pattern.compile("[\\w\\s]+: (\\d+:\\d+)\\. [\\w\\s]+: (\\d+:\\d+)\\.");
     private static final Pattern GAUNTLET_KILL_COUNT = Pattern.compile("Your ((Corrupted )*Gauntlet)[\\w\\s]+: (\\d+).");
+    private HashMap<String, String> times = new HashMap<String, String>();
 
     @Override
     protected void startUp() throws Exception
     {
         panel = new KillTimeTrackerPanel(this, itemManager);
 
-        //Cannot load this image in this is looking for the file in com.killtracker when it should be looking in resources
         final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "clock-icon.png");
 
         navButton = NavigationButton.builder()
@@ -86,7 +84,7 @@ public class KillTimeTrackerPlugin extends Plugin
     @Override
     protected void shutDown() throws Exception
     {
-        log.info("Example stopped!");
+        log.info("Shut down");
     }
 
     @Subscribe
@@ -112,7 +110,6 @@ public class KillTimeTrackerPlugin extends Plugin
         final Matcher matcher = KILL_MESSAGE.matcher(chatMessage);
         if (matcher.matches())
         {
-            //Create the KillTimeEntry and write it to to the file
             System.out.println("-- KILL_MESSAGE MATCH --");
             int[] times = parseTime(matcher.group(1));
             int kc = Integer.parseInt(messageStack.pop());
@@ -151,13 +148,7 @@ public class KillTimeTrackerPlugin extends Plugin
 
                 KillTimeEntry entry = new KillTimeEntry(boss, kc, 0, times[0], times[1], new Date());
                 writer.addKillTimeEntry(entry);
-                //TODO: Recalculate times
-                //TODO:
             }
-            Collection<KillTimeEntry> entries = writer.loadKillTimeTrackerEntries("corrupted gauntlet");
-            System.out.println("Your average time is: " + calcAverageTime(entries));
-            System.out.println("Your slowest time is: " + getSlowestTime(entries));
-            System.out.println("Your fastest time is: " + getFastestTime(entries));
         }
     }
 
@@ -177,6 +168,10 @@ public class KillTimeTrackerPlugin extends Plugin
 
     public String calcAverageTime(Collection<KillTimeEntry> entries)
     {
+        if (entries.size() == 0)
+        {
+            return "N/A";
+        }
         int secondTotal = 0;
         for (KillTimeEntry entry : entries)
         {
@@ -188,6 +183,10 @@ public class KillTimeTrackerPlugin extends Plugin
 
     public String getSlowestTime(Collection<KillTimeEntry> entries)
     {
+        if (entries.size() == 0)
+        {
+            return "N/A";
+        }
         int currentSlowest = 0;
         for (KillTimeEntry entry : entries)
         {
@@ -199,9 +198,12 @@ public class KillTimeTrackerPlugin extends Plugin
        return convertToTime(currentSlowest);
     }
 
-    // Might make a class that just keeps track of times
     public String getFastestTime(Collection<KillTimeEntry> entries)
     {
+        if (entries.size() == 0)
+        {
+            return "N/A";
+        }
         KillTimeEntry firstEntry = (KillTimeEntry) Iterables.getFirst(entries, 0);
         int currentFastest = firstEntry.convertToSeconds();
         for (KillTimeEntry entry : entries)
@@ -219,6 +221,19 @@ public class KillTimeTrackerPlugin extends Plugin
         int minutes = second / 60;
         int seconds = second % 60;
         return minutes + ":" + seconds;
+    }
+
+    public void displayDetails(String boss, int id)
+    {
+        Collection<KillTimeEntry> entries = writer.loadKillTimeTrackerEntries(boss.toLowerCase());
+
+        times.clear();
+        times.put("Logged Kills", Integer.toString(entries.size()));
+        times.put("Slowest Time", getSlowestTime(entries));
+        times.put("Fastest Time", getFastestTime(entries));
+        times.put("Average Time", calcAverageTime(entries));
+
+        panel.showBossDetails(times, boss, id);
     }
 
 
