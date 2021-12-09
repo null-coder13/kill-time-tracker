@@ -9,6 +9,8 @@ import net.runelite.client.util.ImageUtil;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -26,8 +28,7 @@ public class BossPanel extends JPanel
     private final int id;
     private final BufferedImage BACK_ICON = ImageUtil.loadImageResource(KillTimeTrackerPlugin.class, "back-arrow-white.png");
 
-
-
+    //TODO: Update this panel after every kill
     public BossPanel(ItemManager itemManager, KillTimeTrackerPlugin plugin, HashMap<String, String> times, String boss, int id, KillTimeTrackerPanel panel)
     {
         this.panel = panel;
@@ -84,6 +85,10 @@ public class BossPanel extends JPanel
         constraints.weightx = 1;
 
         this.add(timePanel(), constraints);
+        constraints.gridy++;
+
+        this.add(createResetButton(), constraints);
+
     }
 
     private JPanel timePanel()
@@ -132,4 +137,18 @@ public class BossPanel extends JPanel
 
         return label;
     }
+
+    private JButton createResetButton() {
+        JButton reset = new JButton("Reset");
+        reset.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                panel.clearData(boss);
+            }
+        });
+        return reset;
+    }
+
 }

@@ -51,4 +51,22 @@ public class KillTimeTrackerPanel extends PluginPanel
         this.repaint();
     }
 
+    public boolean clearData(final String bossName)
+    {
+        final int option = JOptionPane.showConfirmDialog(this.getRootPane(), "Are you sure you want to delete this data? This action cannot be undone.", "Warning", JOptionPane.YES_NO_OPTION);
+
+        if (option == JOptionPane.YES_OPTION)
+        {
+            System.out.println("Yes chosen");
+            return true;
+        }
+        else
+        {
+            System.out.println("No chosen");
+            return false;
+        }
+    }
+
+
+
 }
