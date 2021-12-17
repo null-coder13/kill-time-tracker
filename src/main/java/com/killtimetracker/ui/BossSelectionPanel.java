@@ -64,6 +64,8 @@ public class BossSelectionPanel extends JPanel
 
             materialTab.setOnSelectEvent(() ->
             {
+                plugin.setCurrentBossName(boss.getBossName());
+                plugin.setCurrentBossIcon(boss.getIcon());
                 plugin.displayDetails(boss.getBossName(), boss.getIcon());
                 return true;
             });

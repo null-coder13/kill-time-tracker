@@ -4,16 +4,21 @@ import com.google.common.collect.Iterables;
 import com.google.inject.Provides;
 
 import javax.inject.Inject;
+import javax.swing.*;
 
 import com.killtimetracker.localstorage.KillTimeEntry;
 import com.killtimetracker.localstorage.KillTimeWriter;
 import com.killtimetracker.ui.KillTimeTrackerPanel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameStateChanged;
+import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemManager;
@@ -52,9 +57,16 @@ public class KillTimeTrackerPlugin extends Plugin
     @Inject
     private ItemManager itemManager;
 
+    @Inject
+    private ClientThread clientThread;
+
     private NavigationButton navButton;
     private KillTimeTrackerPanel panel;
     private Stack<String> messageStack = new Stack<String>();
+    @Setter @Getter
+    private String currentBossName;
+    @Setter @Getter
+    private int currentBossIcon;
 
     //Might need to change kill message in case of new personal best
     private static final Pattern KILL_MESSAGE = Pattern.compile("Fight duration: (\\d+:\\d+)\\. Personal best: (\\d+):(\\d+).");
@@ -63,6 +75,7 @@ public class KillTimeTrackerPlugin extends Plugin
     private static final Pattern GAUNTLET_TIME = Pattern.compile("[\\w\\s]+: (\\d+:\\d+)\\. [\\w\\s]+: (\\d+:\\d+)\\.");
     private static final Pattern GAUNTLET_KILL_COUNT = Pattern.compile("Your ((Corrupted )*Gauntlet)[\\w\\s]+: (\\d+).");
     private HashMap<String, String> times = new HashMap<String, String>();
+
 
     @Override
     protected void startUp() throws Exception
@@ -116,6 +129,11 @@ public class KillTimeTrackerPlugin extends Plugin
             String boss = messageStack.pop();
             KillTimeEntry entry = new KillTimeEntry(boss, kc, 0, times[0], times[1], new Date());
             writer.addKillTimeEntry(entry);
+            if (panel.isBossDetailsActive())
+            {
+                System.out.println("Current boss: " + currentBossName);
+                resetPanel(currentBossName, currentBossIcon);
+            }
         }
 
         final Matcher bossMatcher = BOSS_KILL_COUNT.matcher(chatMessage);
@@ -148,6 +166,11 @@ public class KillTimeTrackerPlugin extends Plugin
 
                 KillTimeEntry entry = new KillTimeEntry(boss, kc, 0, times[0], times[1], new Date());
                 writer.addKillTimeEntry(entry);
+                if (panel.isBossDetailsActive())
+                {
+                   System.out.println("Current boss: " + currentBossName);
+                   resetPanel(currentBossName, currentBossIcon);
+                }
             }
         }
     }
@@ -234,6 +257,14 @@ public class KillTimeTrackerPlugin extends Plugin
         times.put("Average Time", calcAverageTime(entries));
 
         panel.showBossDetails(times, boss, id);
+    }
+
+    public void resetPanel(String boss, int id)
+    {
+        clientThread.invoke(() ->
+        {
+            SwingUtilities.invokeLater(() -> this.displayDetails(boss, id));
+        });
     }
 
 

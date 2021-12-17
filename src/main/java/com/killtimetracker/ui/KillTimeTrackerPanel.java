@@ -1,6 +1,7 @@
 package com.killtimetracker.ui;
 
 import com.killtimetracker.KillTimeTrackerPlugin;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.ColorScheme;
@@ -20,6 +21,8 @@ public class KillTimeTrackerPanel extends PluginPanel
     private BossSelectionPanel bossSelectionPanel;
     private BossPanel bossPanel;
     private final ItemManager itemManager;
+    @Getter
+    private boolean bossDetailsActive;
 
     public KillTimeTrackerPanel(KillTimeTrackerPlugin plugin, ItemManager itemManager)
     {
@@ -38,6 +41,7 @@ public class KillTimeTrackerPanel extends PluginPanel
         this.add(errorPanel, BorderLayout.NORTH);
         bossSelectionPanel = new BossSelectionPanel(itemManager, plugin);
         this.add(bossSelectionPanel);
+        this.bossDetailsActive = false;
         this.revalidate();
         this.repaint();
     }
@@ -47,6 +51,7 @@ public class KillTimeTrackerPanel extends PluginPanel
         this.removeAll();
         bossPanel = new BossPanel(itemManager,plugin, times, boss, id, this);
         this.add(bossPanel);
+        this.bossDetailsActive = true;
         this.revalidate();
         this.repaint();
     }
@@ -67,6 +72,14 @@ public class KillTimeTrackerPanel extends PluginPanel
         }
     }
 
-
+//    public void resetPanel(HashMap<String, String> times, String boss, int id)
+//    {
+//        System.out.println("Reseting boss panel");
+//        if (bossDetailsActive)
+//        {
+//            System.out.println("Updating the boss details panel");
+//            showBossDetails(times, );
+//        }
+//    }
 
 }
