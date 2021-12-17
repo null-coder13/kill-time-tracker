@@ -28,7 +28,6 @@ public class BossPanel extends JPanel
     private final int id;
     private final BufferedImage BACK_ICON = ImageUtil.loadImageResource(KillTimeTrackerPlugin.class, "back-arrow-white.png");
 
-    //TODO: Update this panel after every kill
     public BossPanel(ItemManager itemManager, KillTimeTrackerPlugin plugin, HashMap<String, String> times, String boss, int id, KillTimeTrackerPanel panel)
     {
         this.panel = panel;
@@ -94,7 +93,6 @@ public class BossPanel extends JPanel
     private JPanel timePanel()
     {
         JPanel container = new JPanel();
-        //TODO: I would like the hgap and vgap to work for this
         container.setLayout(new GridLayout(4,2, 5,5));
         container.setBorder(new EmptyBorder(5,5,5,5));
         container.setBackground(ColorScheme.DARKER_GRAY_COLOR);

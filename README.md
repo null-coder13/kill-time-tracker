@@ -9,15 +9,20 @@ The plugins displays the stats of the boss as shown in the Design Mockup. If the
 ### Track Kill Time
 The plugin tracks the kill time after a boss is defeated and stores it in a JSON file locally.
 ### Reset Time
-The plugin has the abillity to reset either the slowest, fastest, or all times.
-
-
-## Design Mockup
-![boss selection](src/main/resources/com/killtimetracker/boss-selection.png)  
-Here the user can select a boss they want to see statistics on. Once they select the boss it will bring them to the next screen.
-
-![statistics](src/main/resources/com/killtimetracker/boss-stats.png)  
-This is an example for the data that will be displayed after selecting a boss. The reset button allows the user to reset all of the boss times for selected boss. 
+The plugin has the ability to reset either the slowest, fastest, or all times.
 
 ## Installation
-Coming soon...
+### RuneLite user
+Awaiting approval...
+To download go to the Plugin Hub on the RuneLite client and search for "Kill Time Tracker".
+
+### Developers
+1. Clone the this git repository to your desired location.
+2. Open the project with your IDE of choice. (Note: RuneLite recommends you use IntelliJ version 2017.3 or greater)
+3. To run the program, go to kill-time-tracker -> test -> KillTimeTrackerPluginTest. Right click KillTimeTrackerPluginTest and click "Run".
+   (Note: If the program does not start, RuneLite may need to be updated to the lastest version. In the project structure go to build.gradle and update the `def runeLiteVersion = '1.8.7.1'` to the lastest RuneLite version specified at https://runelite.net/)
+
+For more instructions on creating plugins please see https://github.com/runelite/plugin-hub
+
+## State of the code
+Currently the code is up to date and in a working state. 

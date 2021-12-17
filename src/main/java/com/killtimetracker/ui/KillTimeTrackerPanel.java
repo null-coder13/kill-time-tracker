@@ -37,7 +37,7 @@ public class KillTimeTrackerPanel extends PluginPanel
     public void showBossIcons()
     {
         this.removeAll();
-        errorPanel.setContent("Kill Timers", "Select a boss to view the current tracked data");
+        errorPanel.setContent("Kill Times Tracker", "Select a boss to view the current tracked data");
         this.add(errorPanel, BorderLayout.NORTH);
         bossSelectionPanel = new BossSelectionPanel(itemManager, plugin);
         this.add(bossSelectionPanel);
@@ -62,7 +62,6 @@ public class KillTimeTrackerPanel extends PluginPanel
 
         if (option == JOptionPane.YES_OPTION)
         {
-            //get the writer and delete the data
             plugin.resetBoss(bossName);
             return true;
         }

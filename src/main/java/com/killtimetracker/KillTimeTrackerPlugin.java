@@ -9,7 +9,6 @@ import javax.swing.*;
 import com.killtimetracker.localstorage.KillTimeEntry;
 import com.killtimetracker.localstorage.KillTimeWriter;
 import com.killtimetracker.ui.KillTimeTrackerPanel;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -68,11 +67,9 @@ public class KillTimeTrackerPlugin extends Plugin
     @Setter @Getter
     private int currentBossIcon;
 
-    //Might need to change kill message in case of new personal best
     private static final Pattern KILL_MESSAGE = Pattern.compile("Fight duration: (\\d+:\\d+)\\. Personal best: (\\d+):(\\d+).");
     private static final Pattern BOSS_KILL_COUNT = Pattern.compile("Your (\\w+\\s?\\w+?) kill count is: (\\d+)\\.");
     private static final Pattern GAUNTLET = Pattern.compile("(Corrupted )*[cC]hallenge duration: (\\d+:\\d+).+");
-    private static final Pattern GAUNTLET_TIME = Pattern.compile("[\\w\\s]+: (\\d+:\\d+)\\. [\\w\\s]+: (\\d+:\\d+)\\.");
     private static final Pattern GAUNTLET_KILL_COUNT = Pattern.compile("Your ((Corrupted )*Gauntlet)[\\w\\s]+: (\\d+).");
     private HashMap<String, String> times = new HashMap<String, String>();
 
