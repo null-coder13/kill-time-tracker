@@ -267,5 +267,10 @@ public class KillTimeTrackerPlugin extends Plugin
         });
     }
 
+    public void resetBoss(String boss)
+    {
+        writer.deleteKillTimeRecord(boss);
+        resetPanel(boss, currentBossIcon);
+    }
 
 }

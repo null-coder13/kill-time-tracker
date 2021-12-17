@@ -62,7 +62,8 @@ public class KillTimeTrackerPanel extends PluginPanel
 
         if (option == JOptionPane.YES_OPTION)
         {
-            System.out.println("Yes chosen");
+            //get the writer and delete the data
+            plugin.resetBoss(bossName);
             return true;
         }
         else
@@ -71,15 +72,5 @@ public class KillTimeTrackerPanel extends PluginPanel
             return false;
         }
     }
-
-//    public void resetPanel(HashMap<String, String> times, String boss, int id)
-//    {
-//        System.out.println("Reseting boss panel");
-//        if (bossDetailsActive)
-//        {
-//            System.out.println("Updating the boss details panel");
-//            showBossDetails(times, );
-//        }
-//    }
 
 }
